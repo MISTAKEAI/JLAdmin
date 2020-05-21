@@ -1,30 +1,24 @@
 <template>
   <el-container>
     <el-aside :width="menuWidth+'px'">
-      <el-menu background-color="#191a23" text-color="#fff" active-text-color="#fff" :collapse="isCollapse">
-        <div class="logo" :class="{'log-active':menuWidth==180}">
+      <el-menu background-color="#191a23" text-color="#fff" active-text-color="#fff" :default-active="this.$store.state.CURRENT_MENU"
+        router :collapse="isCollapse">
+        <div class="logo" :class="{'log-active':menuWidth==180}" router>
           <span v-if="menuWidth == 180">鲸落企业版</span>
         </div>
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">企业管理</span>
+        <template v-for="(it, index) in menuList">
+          <template v-for="(item, index) in it.childern">
+            <el-submenu :index="item.path" v-show="$store.state.ACTIVE_NAME == it.id">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">{{item.name}}</span>
+              </template>
+              <template v-for="(it, index) in item.childern">
+                <el-menu-item :index="it.path" @click="handleSelect(it)">{{it.name}}</el-menu-item>
+              </template>
+            </el-submenu>
           </template>
-          <el-menu-item index="1-1">公司管理</el-menu-item>
-          <el-menu-item index="1-2">部门管理</el-menu-item>
-          <el-menu-item index="1-3">员工管理</el-menu-item>
-        </el-submenu>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span slot="title">企业管理</span>
-          </template>
-          <el-menu-item index="2-1">公司管理</el-menu-item>
-          <el-menu-item index="2-2">部门管理</el-menu-item>
-          <el-menu-item index="2-3">员工管理</el-menu-item>
-        </el-submenu>
-        </el-submenu>
+        </template>
       </el-menu>
     </el-aside>
 
@@ -34,11 +28,10 @@
           <el-button icon="el-icon-s-fold" type="text"></el-button>
         </div>
         <div class="tab-wrap">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="日常管理" name="1"></el-tab-pane>
-            <el-tab-pane label="订单管理" name="2"></el-tab-pane>
-            <el-tab-pane label="财务管理" name="3"></el-tab-pane>
-            <el-tab-pane label="报表管理" name="4"></el-tab-pane>
+          <el-tabs v-model="$store.state.ACTIVE_NAME">
+            <template v-for="(item, index) in menuList">
+              <el-tab-pane :label="item.name" :name="item.id"></el-tab-pane>
+            </template>
           </el-tabs>
         </div>
         </div>
@@ -72,20 +65,20 @@
         <i class="vicon-left el-icon-arrow-left" @click="leftSlither()"></i>
         <div class="tap-select-content" ref="tapScr">
           <div class="next-select-content" :style="{'transform':'translateX('+divWidth+'px)'}">
-            <div class="tap-title tap-active" ref="taps">
+            <div class="tap-title" ref="taps" @click="toTap(null,0)" :class="{'tap-active':$store.state.CURRENT_TAP==0}">
               <span>首页</span>
             </div>
-            <template v-for="(item, index) in tapList">
-              <div class="tap-title" ref="taps" @click="toTap(item,index)">
-                <span>{{item.name}}{{index}}</span>
-                <i class="el-icon-close"></i>
+            <template v-for="(item, index) in $store.getters._GET_TAP_LIST">
+              <div class="tap-title" ref="taps" @click="toTap(item,index)" :class="{'tap-active':$store.state.CURRENT_TAP==item.id}">
+                <span>{{item.name}}</span>
+                <i class="el-icon-close" @click.stop="delTap(item,index)"></i>
               </div>
             </template>
           </div>
         </div>
         <i class="vicon-left el-icon-arrow-right" @click="rightSlither()"></i>
         <div class="tap-dropdown">
-          <el-dropdown>
+          <el-dropdown @command="handleCommand">
             <span>
               <div class="tap-btn">
                 <i class="el-icon-arrow-down">
@@ -93,9 +86,9 @@
               </div>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>关闭当前</el-dropdown-item>
-              <el-dropdown-item>关闭其他</el-dropdown-item>
-              <el-dropdown-item>关闭全部</el-dropdown-item>
+              <el-dropdown-item command="closeNow">关闭当前</el-dropdown-item>
+              <el-dropdown-item command="closeOther">关闭其他</el-dropdown-item>
+              <el-dropdown-item command="closeAll">关闭全部</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -117,76 +110,12 @@
       return {
         isCollapse: false, //左侧菜单栏伸缩
         menuWidth: 180, //左侧菜单伸缩宽度
-        activeName: "1", //头部菜单模块第一个高亮
-        divWidth: 0,
-        tapList: [{
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-          {
-            name: "个人中心"
-          },
-        ]
+        activeName: null, //头部菜单模块第一个高亮
+        divWidth: 0, //历史标签滑动条滑动值
+        currentTap: 0, //当前tap位置
+        menuList: this.$store.getters._GET_MENU_LIST,
+        tapList:[], //历史标签集合
+        navselected: null, //菜单栏选中的值
       }
     },
     methods: {
@@ -210,6 +139,7 @@
         let that = this;
         that.divWidth = 0;
       },
+      //历史记录滑动条右边按钮
       rightSlither() {
         let that = this;
         that.$nextTick(() => {
@@ -217,10 +147,81 @@
           for (var n = 0; n < that.$refs.taps.length; n++) {
             size += that.$refs.taps[n].offsetWidth
           }
-
-          that.divWidth = -size + that.$refs.tapScr.clientWidth / 1.2
+          if (size - that.$refs.tapScr.clientWidth / 1.2 > 0) {
+            that.divWidth = -size + that.$refs.tapScr.clientWidth / 1.2
+          }
         })
       },
+      //选择菜单节点
+      handleSelect(data) {
+        let that = this;
+
+        // var isGet = false;
+        // for (var n = 0; n < that.tapList.length; n++) {
+        //   if (data.id == that.tapList[n].id) {
+        //     isGet = true;
+        //   }
+        // }
+        // if (!isGet) {
+        //   data.isFather = that.activeName;
+        //   that.tapList.push(data);
+        //   that.currentTap = data.id
+        //   data.index = that.tapList.length - 1
+        //   that.$store.commit("_SET_CURRENT_INFO", data);
+        //   that.navselected = data.path
+        // }
+        //  that.$store.commit("_SET_TAP_LIST", that.tapList);
+        // that.currentTap = data.id
+        //  that.navselected = data.path
+      },
+      //历史标签操作
+      handleCommand(command) {
+        let that = this;
+        var data = that.$store.getters._GET_CURRENT_INFO;
+        if (command == "closeNow") {
+          if (that.$router.currentRoute.fullPath != "/") {
+            var url = "/";
+            if (data.id == that.currentTap) {
+              if (data.index != 0) {
+                var info = that.tapList[data.index - 1];
+                url = info.path;
+                that.currentTap = info.id
+                that.activeName = info.isFather
+              }
+              that.$router.push({
+                path: url
+              })
+            }
+            if (url == "/") {
+              that.currentTap = 0
+            }
+            that.navselected = url
+            that.tapList.splice(data.index, 1)
+          }
+        } else if (command == "closeOther") {
+          if (that.$router.currentRoute.fullPath != "/") {
+            if (that.$router.currentRoute.fullPath != data.path) {
+              that.$router.push({
+                path: data.path
+              })
+            }
+            that.currentTap = data.id
+            that.navselected = data.path
+            that.tapList = [];
+            that.tapList.push(data)
+          }
+        } else {
+          that.tapList = [];
+          if (that.$router.currentRoute.fullPath != "/") {
+            that.$router.push({
+              path: "/"
+            })
+            that.navselected = "/"
+            that.currentTap = 0
+          }
+        }
+      },
+      //点击历史标签
       toTap(data, index) {
         let that = this;
         that.$nextTick(() => {
@@ -228,15 +229,75 @@
           for (var n = 0; n < index; n++) {
             size += that.$refs.taps[n].offsetWidth
           }
-
           if (that.$refs.tapScr.clientWidth / 1.4 - size < 0) {
             that.divWidth = that.$refs.tapScr.clientWidth / 1.4 - size
           } else {
             that.divWidth = 0
           }
         })
+        if (data == null) {
+          if (that.$router.currentRoute.fullPath != "/") {
+            that.$router.push({
+              path: "/"
+            })
+          }
+          that.$store.getters._SET_CURRENT_TAP = 0
+          return
+        }
+        
+        if (data.id != that.$store.getters._GET_CURRENT_TAP) {
+          that.$router.push({
+              path: data.path
+          })
+        }
+        // if (data.id != that.currentTap) {
+        //   that.activeName = data.isFather
+        //   that.currentTap = data.id
+        //   that.navselected = data.path
+        //   that.$store.commit("_SET_CURRENT_INFO", data);
+        //   that.$router.push({
+        //     path: data.path
+        //   })
+        // }
+      },
+      //删除历史标签
+      delTap(data, index) {
+        let that = this;
+      //    that.$store.commit("_SET_TAP_LIST", that.tapList);
+      //   var url = "/";
+      //   if (data.id == that.currentTap) {
+      //     if (index != 0) {
+      //       var info = that.tapList[index - 1];
+      //       url = info.path;
+      //       that.currentTap = info.id
+      //       that.activeName = info.isFather
+      //     }
+      //     that.$router.push({
+      //       path: url
+      //     })
+      //   }
+      //   if (url == "/") {
+      //     that.currentTap = 0
+      //   }
+      //   that.navselected = url
+      //   that.tapList.splice(index, 1)
       }
     },
+    created() {
+      let that = this;
+      var menu = that.$store.getters._GET_MENU_LIST;
+      if (menu.length > 0) {
+        that.$store.state.ACTIVE_NAME = menu[0].id
+        if (that.$router.currentRoute.fullPath != "/") {
+          if (that.$store.getters._GET_TAP_LIST.length == 0) {
+            that.$router.push({
+              path: '/'
+            })
+            that.$store.commit("_SET_CURRENT_INFO", null);
+          }
+        }
+      }
+    }
   };
 </script>
 
