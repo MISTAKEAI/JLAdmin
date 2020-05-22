@@ -1,10 +1,13 @@
 <template>
   <el-container >
     <el-aside :width="menuWidth+'px'">
-      <el-menu background-color="#191a23" text-color="#fff" active-text-color="#fff" :default-active="this.$store.state.CURRENT_MENU"
+      <el-menu  background-color="#20222a"
+      text-color="#909399"
+      active-text-color="#fff"   :default-active="this.$store.state.CURRENT_MENU"
         router :collapse="isCollapse">
-        <div class="logo" :class="{'log-active':menuWidth==180}" router>
-          <span v-if="menuWidth == 180">鲸落企业版</span>
+        <div class="logo" :class="{'log-active':menuWidth!=180}" router>
+          <span v-if="menuWidth == 180"><i class="iconfont icon-jingyu"></i>&nbsp;&nbsp;鲸落企业版</span>
+          <i class="iconfont icon-jingyu" v-else></i>
         </div>
         <template v-for="(it, index) in menuList">
           <template v-for="(item, index) in it.childern">
@@ -266,4 +269,5 @@
 
 <style>
   @import "../../assets/css/myadmin.css";
+  @import "//at.alicdn.com/t/font_1237458_jwmvxqkltdl.css";
 </style>

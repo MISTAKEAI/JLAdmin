@@ -17,15 +17,28 @@ const state = { //要设置的全局访问的state对象
           id: "3",
           name: "公司管理",
           parentId: "2",
-          path: "/index",
+          path: "/index1",
           childern: null
         },{
-          id: "3",
-          name: "公司管理",
+          id: "13",
+          name: "部门管理",
           parentId: "2",
           path: "/index5",
           childern: null
+        },{
+          id: "14",
+          name: "员工管理",
+          parentId: "2",
+          path: "/index",
+          childern: null
         }]
+      },
+      {
+        id: "15",
+        name: "企业管理",
+        parentId: "1",
+        path: "/",
+        childern: null
       }]
     },
     {

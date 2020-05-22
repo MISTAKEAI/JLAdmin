@@ -14,6 +14,7 @@ body {
 }
 
 .el-header {
+  margin-left: -1px;
   background-color: #fff;
   height: 40px !important;
   line-height: 40px;
@@ -22,12 +23,10 @@ body {
 }
 
 .el-aside {
-  z-index: 100px;
   color: #fff;
   height: 100%;
   overflow: hidden;
   background-color: #f5f7f9;
-  box-shadow: 10px 10px 10px #409EFF inset;
 }
 
 .el-main {
@@ -41,6 +40,12 @@ body {
   width: 100%;
   background-color: #FFFFFF;
   border-radius: 5px;
+  overflow: hidden;
+}
+
+.son-content{
+  height: 100%;
+  width: 100%;
 }
 
 .el-menu {
@@ -49,24 +54,35 @@ body {
 }
 
 .el-submenu__title:hover {
-  background-color: #2d56d1 !important;
+  background-color: #000000 !important;
 }
+.el-submenu__title:hover i,.el-submenu__title:hover span {
+  color: #fff;
+}
+
 
 .el-menu-item:hover {
-  background-color: #2d56d1 !important;
+  background-color: #000000 !important;
+   color: #fff !important;
 }
 
+
 .el-menu-item.is-active {
-  background-color: #2d56d1 !important;
+  background-color: #000000 !important;
 }
 
 .logo {
-  background-color: #191a23;
+  background-color: #409EFF;
+  cursor: pointer;
   color: white;
-  height: 70px;
-  line-height: 70px;
+  height: 40px;
+  line-height: 40px;
   width: 180px;
   text-align: center;
+}
+
+.log-active{
+  width: 68px;
 }
 
 .tab-wrap .el-tabs__header .el-tabs__nav-wrap:after {
@@ -117,26 +133,32 @@ body {
   font-weight: 700;
 }
 
-.el-submenu__title i {
-  color: #fff;
-}
-
 .info-content{
   display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.table{
+  width: 100%;
 }
 
 .table-content {
   padding: 15px;
-  flex: 1;
+  position: relative;
+  width: 100%;
 }
 
 .tree-content {
-  flex: 1;
   padding: 15px;
+  width: 230px;
   min-width: 230px;
   max-width: 230px;
+  margin-bottom: 70px;
+  overflow: auto;
   border-right: 1px solid #f0f0f0;
 }
+
 
 .operate-group .item {
   float: left;

@@ -1,85 +1,94 @@
 <template>
-  <div >
+  <div class="son-content">
     <div class="title-header">
       <el-row :gutter="20">
         <el-col :span="6"><span class="title-h1">项目管理</span></el-col>
         <div style="float: right;">
-         <el-dropdown split-button type="primary"  size="medium" @click="handleClick">
-           导出导入
-           <el-dropdown-menu slot="dropdown">
-             <el-dropdown-item>批量导出</el-dropdown-item>
-             <el-dropdown-item>批量导入</el-dropdown-item>
-           </el-dropdown-menu>
-         </el-dropdown>
-           <el-button size="medium" type="info" icon="el-icon-delete">删除</el-button>
-          <el-button size="medium" type="success" icon="el-icon-circle-plus-outline">新增</el-button>
+          <el-button size="small" type="primary" icon="el-icon-edit">新增</el-button>
+          <el-button size="small" type="primary" icon="el-icon-delete">删除</el-button>
+          <el-button size="small" type="primary" icon="el-icon-upload">导入</el-button>
+          <el-dropdown style="margin-left: 10px;">
+            <el-button size="small" type="primary" icon="el-icon-download">
+              导出<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>条件导出</el-dropdown-item>
+              <el-dropdown-item>全部导出</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </el-row>
     </div>
     <div class="info-content">
-   <div class="tree-content" >
-      <el-tree :data="data" :props="defaultProps"  :expand-on-click-node="false" default-expand-all></el-tree>
-    </div>
-    </el-col>
-    <div class="table-content">
-      <div class="operate-btn">
-        <el-row :gutter="24">
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="8">
-            <el-button type="text" @click="expand()" icon="el-icon-d-caret">展开</el-button>
-            <el-button type="primary" icon="el-icon-search" size="medium" round>搜索</el-button>
-            <el-button type="danger" icon="el-icon-refresh" size="medium" round>重置</el-button>
-          </el-col>
-        </el-row>
-        <el-row :gutter="24" v-if="isExpand">
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-          <el-col :span="3">
-            <el-input size="medium" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-            </el-input>
-          </el-col>
-        </el-row>
+      <div class="tree-content">
+        <el-tree :data="treeData" :props="defaultProps" highlight-current :expand-on-click-node="false" default-expand-all>
+          <span class="span-ellipsis" slot-scope="{ node, data }">
+            <el-tooltip class="item" effect="light" :content="node.label" placement="top">
+              <span>{{ node.label }}</span>
+            </el-tooltip>
+          </span>
+        </el-tree>
       </div>
-      <!--region table 表格-->
-      <i-table :list="list" :total="total" :otherHeight="otherHeight" :options="options" :pagination="pagination"
-        :columns="columns" :operates="operates" @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange"
-        @handleSelectionChange="handleSelectionChange" ref="iTable">
-      </i-table>
-      <!--endregion-->
-    </div>
+      </el-col>
+      <div class="table-content">
+        <div class="operate-btn">
+          <el-row :gutter="24">
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="8">
+              <el-button type="text" @click="expand()" icon="el-icon-d-caret">展开</el-button>
+              <el-button type="primary" icon="el-icon-search" size="small" round>搜索</el-button>
+              <el-button type="danger" icon="el-icon-refresh" size="small" round>重置</el-button>
+            </el-col>
+          </el-row>
+          <el-row :gutter="24" v-if="isExpand">
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+              </el-input>
+            </el-col>
+          </el-row>
+        </div>
+        <!--region table 表格-->
+        <i-table :list="list" :total="total" :otherHeight="otherHeight" :options="options" :pagination="pagination"
+          :columns="columns" :operates="operates" @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange"
+          @handleSelectionChange="handleSelectionChange" ref="iTable">
+        </i-table>
+        <!--endregion-->
+      </div>
     </div>
     <index-edit ref="indexEdit"></index-edit>
   </div>
@@ -96,21 +105,104 @@
     data() {
       return {
         isExpand: false, //展示多个搜索条件
-        input2:null,
-        data: [{
-          label: '福建省新立拓汽车服务有限公司',
+        input2: null,
+        treeData: [{
+          label: '广州省广信集团有限公司',
           children: [{
-            label: '二级 1-1',
+            label: '总裁办',
             children: [{
-              label: '三级 1-1-1'
+              label: '市场部'
+            }, {
+              label: '总裁办',
+              children: [{
+                label: '市场部'
+              }, {
+                label: '总裁办',
+                children: [{
+                  label: '市场部'
+                }, {
+                  label: '总裁办',
+                  children: [{
+                    label: '市场部'
+                  }, {
+                    label: '总裁办',
+                    children: [{
+                      label: '市场部'
+                    }, {
+                      label: '总裁办',
+                      children: [{
+                        label: '市场部'
+                      }, {
+                        label: '总裁办',
+                        children: [{
+                          label: '市场部'
+                        }, {
+                          label: '总裁办',
+                          children: [{
+                            label: '市场部'
+                          }, {
+                            label: '总裁办',
+                            children: [{
+                              label: '市场部'
+                            }]
+                          }]
+                        }]
+                      }]
+                    }]
+                  }]
+                }]
+              }]
+            }]
+          }]
+        }, {
+          label: '广州省广信集团有限公司',
+          children: [{
+            label: '总裁办',
+            children: [{
+              label: '市场部'
+            }, {
+              label: '总裁办',
+              children: [{
+                label: '市场部'
+              }, {
+                label: '总裁办',
+                children: [{
+                  label: '市场部'
+                }, {
+                  label: '总裁办',
+                  children: [{
+                    label: '市场部'
+                  }, {
+                    label: '总裁办',
+                    children: [{
+                      label: '市场部'
+                    }, {
+                      label: '总裁办',
+                      children: [{
+                        label: '市场部'
+                      }, {
+                        label: '总裁办',
+                        children: [{
+                          label: '市场部'
+                        }, {
+                          label: '总裁办',
+                          children: [{
+                            label: '市场部'
+                          }, {
+                            label: '总裁办',
+                            children: [{
+                              label: '市场部'
+                            }]
+                          }]
+                        }]
+                      }]
+                    }]
+                  }]
+                }]
+              }]
             }]
           }]
         }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        total: 0,
         list: [{
             id: '24',
             title: '编号3',
@@ -158,14 +250,13 @@
             state: 1
           },
         ],
-        otherHeight: 275,
         columns: [{
             prop: 'id',
-            label: '编号',
+            label: '员工号',
           },
           {
             prop: 'title',
-            label: '标题',
+            label: '姓名',
             formatter: (row, column, cellValue) => {
               return `<span style="white-space: nowrap;color: dodgerblue;">${row.title}</span>`
             }
@@ -178,7 +269,7 @@
                 props: {
                   type: params.row.state === 0 ? 'success' : params.row.state === 1 ? 'info' : 'danger'
                 } // 组件的props
-              }, params.row.state === 0 ? '上架' : params.row.state === 1 ? '下架' : '审核中')
+              }, params.row.state === 0 ? '启用' : params.row.state === 1 ? '禁用' : '审核中')
             }
           },
 
@@ -187,6 +278,19 @@
           width: 200,
           fixed: 'right',
           list: [{
+              label: '详情',
+              type: 'text',
+              show: (index, row) => {
+                return true
+              },
+              icon: '',
+              plain: true,
+              disabled: false,
+              method: (index, row) => {
+                this.handleDetail(index, row)
+              }
+            },
+            {
               label: '编辑',
               type: 'text',
               show: (index, row) => {
@@ -214,13 +318,19 @@
             }
           ]
         }, // 操作按钮组
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        },
+        otherHeight: 275,
+        total: 0,
         pagination: {
           pageIndex: 1,
           pageSize: 20
         }, // 分页参数
         options: {
           stripe: false, // 是否为斑马纹 table
-          loading: true, // 是否添加表格loading加载动画
+          loading: false, // 是否添加表格loading加载动画
           highlightCurrentRow: true, // 是否支持当前行高亮显示
           mutiSelect: true, // 是否支持列表项选中功能
           isFixed: false,
@@ -235,10 +345,10 @@
         if (that.isExpand) {
           console.log("11")
           that.isExpand = false;
-          that.otherHeight = 280;
+          that.otherHeight = 275;
         } else {
           that.isExpand = true;
-          that.otherHeight = 320;
+          that.otherHeight = 305;
         }
         that.$refs.iTable.getHeight(that.otherHeight);
       },
@@ -254,17 +364,16 @@
       handleSelectionChange(val) {
         console.log('val:', val)
       },
+      // 详情
+      handleDetail(index, row) {
+        this.$refs.indexEdit.init();
+      },
       // 编辑
       handleEdit(index, row) {
         this.$refs.indexEdit.init();
-        console.log(' index:', index)
-        console.log(' row:', row)
       },
       // 删除
-      handleDel(index, row) {
-        console.log(' index:', index)
-        console.log(' row:', row)
-      }
+      handleDel(index, row) {}
     }
   }
 </script>
