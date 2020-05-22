@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container >
     <el-aside :width="menuWidth+'px'">
       <el-menu background-color="#191a23" text-color="#fff" active-text-color="#fff" :default-active="this.$store.state.CURRENT_MENU"
         router :collapse="isCollapse">
@@ -8,13 +8,13 @@
         </div>
         <template v-for="(it, index) in menuList">
           <template v-for="(item, index) in it.childern">
-            <el-submenu :index="item.path" v-show="$store.state.ACTIVE_NAME == it.id">
+            <el-submenu :index="item.id" v-show="$store.state.ACTIVE_NAME == it.id">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span slot="title">{{item.name}}</span>
               </template>
               <template v-for="(it, index) in item.childern">
-                <el-menu-item :index="it.path" @click="handleSelect(it)">{{it.name}}</el-menu-item>
+                <el-menu-item :index="it.path">{{it.name}}</el-menu-item>
               </template>
             </el-submenu>
           </template>
@@ -112,10 +112,7 @@
         menuWidth: 180, //左侧菜单伸缩宽度
         activeName: null, //头部菜单模块第一个高亮
         divWidth: 0, //历史标签滑动条滑动值
-        currentTap: 0, //当前tap位置
-        menuList: this.$store.getters._GET_MENU_LIST,
-        tapList:[], //历史标签集合
-        navselected: null, //菜单栏选中的值
+        menuList: this.$store.getters._GET_MENU_LIST, //菜单栏信息
       }
     },
     methods: {
@@ -152,72 +149,45 @@
           }
         })
       },
-      //选择菜单节点
-      handleSelect(data) {
-        let that = this;
-
-        // var isGet = false;
-        // for (var n = 0; n < that.tapList.length; n++) {
-        //   if (data.id == that.tapList[n].id) {
-        //     isGet = true;
-        //   }
-        // }
-        // if (!isGet) {
-        //   data.isFather = that.activeName;
-        //   that.tapList.push(data);
-        //   that.currentTap = data.id
-        //   data.index = that.tapList.length - 1
-        //   that.$store.commit("_SET_CURRENT_INFO", data);
-        //   that.navselected = data.path
-        // }
-        //  that.$store.commit("_SET_TAP_LIST", that.tapList);
-        // that.currentTap = data.id
-        //  that.navselected = data.path
-      },
       //历史标签操作
       handleCommand(command) {
         let that = this;
         var data = that.$store.getters._GET_CURRENT_INFO;
         if (command == "closeNow") {
           if (that.$router.currentRoute.fullPath != "/") {
+            let that = this;
             var url = "/";
-            if (data.id == that.currentTap) {
+            if (data.id == that.$store.getters._GET_CURRENT_TAP) {
               if (data.index != 0) {
-                var info = that.tapList[data.index - 1];
+                var info = that.$store.getters._GET_TAP_LIST[data.index - 1];
+                console.log(data.index)
                 url = info.path;
-                that.currentTap = info.id
-                that.activeName = info.isFather
+                that.$store.commit("_SET_CURRENT_MENU", info.id)
               }
               that.$router.push({
                 path: url
               })
+            }else{
+              that.$store.commit("_SET_CURRENT_MENU", data.id)
             }
-            if (url == "/") {
-              that.currentTap = 0
-            }
-            that.navselected = url
-            that.tapList.splice(data.index, 1)
+            that.$store.getters._GET_TAP_LIST.splice(data.index, 1)
           }
         } else if (command == "closeOther") {
-          if (that.$router.currentRoute.fullPath != "/") {
-            if (that.$router.currentRoute.fullPath != data.path) {
-              that.$router.push({
-                path: data.path
-              })
+          if (that.$store.getters._GET_TAP_LIST.length > 0) {
+            for (var n = 0; n < that.$store.getters._GET_TAP_LIST.length; n++) {
+              var info = that.$store.getters._GET_TAP_LIST[n];
+              if (info.id != that.$store.getters._GET_CURRENT_INFO.id) {
+                that.$store.getters._GET_TAP_LIST.splice(info.index, 1)
+              }
             }
-            that.currentTap = data.id
-            that.navselected = data.path
-            that.tapList = [];
-            that.tapList.push(data)
           }
         } else {
-          that.tapList = [];
+          that.$store.commit("_SET_TAP_LIST", [])
           if (that.$router.currentRoute.fullPath != "/") {
             that.$router.push({
               path: "/"
             })
-            that.navselected = "/"
-            that.currentTap = 0
+            that.$store.commit("_SET_CURRENT_MENU", null);
           }
         }
       },
@@ -244,45 +214,36 @@
           that.$store.getters._SET_CURRENT_TAP = 0
           return
         }
-        
+
         if (data.id != that.$store.getters._GET_CURRENT_TAP) {
           that.$router.push({
-              path: data.path
+            path: data.path
           })
         }
-        // if (data.id != that.currentTap) {
-        //   that.activeName = data.isFather
-        //   that.currentTap = data.id
-        //   that.navselected = data.path
-        //   that.$store.commit("_SET_CURRENT_INFO", data);
-        //   that.$router.push({
-        //     path: data.path
-        //   })
-        // }
+
       },
       //删除历史标签
       delTap(data, index) {
         let that = this;
-      //    that.$store.commit("_SET_TAP_LIST", that.tapList);
-      //   var url = "/";
-      //   if (data.id == that.currentTap) {
-      //     if (index != 0) {
-      //       var info = that.tapList[index - 1];
-      //       url = info.path;
-      //       that.currentTap = info.id
-      //       that.activeName = info.isFather
-      //     }
-      //     that.$router.push({
-      //       path: url
-      //     })
-      //   }
-      //   if (url == "/") {
-      //     that.currentTap = 0
-      //   }
-      //   that.navselected = url
-      //   that.tapList.splice(index, 1)
+        var url = "/";
+        if (data.id == that.$store.getters._GET_CURRENT_TAP) {
+          if (index != 0) {
+            var info = that.$store.getters._GET_TAP_LIST[index - 1];
+            url = info.path;
+            that.$store.commit("_SET_CURRENT_MENU", info.id)
+          }
+          that.$router.push({
+            path: url
+          })
+
+        } else {
+          that.$store.commit("_SET_CURRENT_MENU", data.id)
+        }
+
+        that.$store.getters._GET_TAP_LIST.splice(index, 1)
       }
     },
+    //页面初始化
     created() {
       let that = this;
       var menu = that.$store.getters._GET_MENU_LIST;
@@ -294,6 +255,8 @@
               path: '/'
             })
             that.$store.commit("_SET_CURRENT_INFO", null);
+          } else {
+            that.$store.state.ACTIVE_NAME = that.$store.getters._GET_CURRENT_INFO.isFather
           }
         }
       }

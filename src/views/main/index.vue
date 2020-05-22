@@ -1,18 +1,25 @@
 <template>
-  <div>
+  <div >
     <div class="title-header">
       <el-row :gutter="20">
         <el-col :span="6"><span class="title-h1">项目管理</span></el-col>
         <div style="float: right;">
+         <el-dropdown split-button type="primary"  size="medium" @click="handleClick">
+           导出导入
+           <el-dropdown-menu slot="dropdown">
+             <el-dropdown-item>批量导出</el-dropdown-item>
+             <el-dropdown-item>批量导入</el-dropdown-item>
+           </el-dropdown-menu>
+         </el-dropdown>
+           <el-button size="medium" type="info" icon="el-icon-delete">删除</el-button>
           <el-button size="medium" type="success" icon="el-icon-circle-plus-outline">新增</el-button>
-          <el-button size="medium" type="info" icon="el-icon-delete">删除</el-button>
         </div>
       </el-row>
     </div>
     <div class="info-content">
-  <!--  <div class="tree-content">
+   <div class="tree-content" >
       <el-tree :data="data" :props="defaultProps"  :expand-on-click-node="false" default-expand-all></el-tree>
-    </div> -->
+    </div>
     </el-col>
     <div class="table-content">
       <div class="operate-btn">
@@ -151,7 +158,7 @@
             state: 1
           },
         ],
-        otherHeight: 285,
+        otherHeight: 275,
         columns: [{
             prop: 'id',
             label: '编号',
@@ -213,7 +220,7 @@
         }, // 分页参数
         options: {
           stripe: false, // 是否为斑马纹 table
-          loading: false, // 是否添加表格loading加载动画
+          loading: true, // 是否添加表格loading加载动画
           highlightCurrentRow: true, // 是否支持当前行高亮显示
           mutiSelect: true, // 是否支持列表项选中功能
           isFixed: false,

@@ -2,7 +2,9 @@
 <template>
   <div class="table">
     <el-table id="iTable" v-loading.iTable="options.loading" :data="list" :height="options.isFixed==false?height:null" :stripe="options.stripe" ref="mutipleTable"
-      @selection-change="handleSelectionChange" :header-cell-style="{background:'#f3f4f5',color:'#606266'}">
+      @selection-change="handleSelectionChange"
+   
+       :header-cell-style="{background:'#f3f4f5',color:'#606266'}">
       <!--region 选择框-->
       <el-table-column v-if="options.mutiSelect" type="selection" style="width: 55px;">
       </el-table-column>

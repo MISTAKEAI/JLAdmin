@@ -19,6 +19,12 @@ const state = { //要设置的全局访问的state对象
           parentId: "2",
           path: "/index",
           childern: null
+        },{
+          id: "3",
+          name: "公司管理",
+          parentId: "2",
+          path: "/index5",
+          childern: null
         }]
       }]
     },
@@ -62,6 +68,7 @@ const getters = {
   _GET_MENU_LIST(state) {
     return state.MENU_LIST
   },
+  //获取当前选择的历史标签
   _GET_CURRENT_TAP(state, value) {
     return state.CURRENT_TAP
   },
@@ -97,6 +104,7 @@ const mutations = {
       }
     } else {
       state.CURRENT_TAP = 0
+      state.CURRENT_MENU = null
     }
   }
 };
@@ -111,15 +119,17 @@ const store = new Vuex.Store({
 });
 export default store;
 
-
+var actveName = null
 let forEc = function(data, path) {
   let flg = false;
   var info = null;
-  if(state.ACTIVE_NAME == null){
-    state.ACTIVE_NAME = state.MENU_LIST[0].id
-  }
+
   data.forEach(function(c) {
+    if (c.parentId == 0) {
+      actveName = c.id
+    }
     if (c.path == path) {
+      state.ACTIVE_NAME = actveName
       if (state.TAP_LIST.length > 0) {
         state.TAP_LIST.forEach(function(d) {
           if (d.path == c.path) {
@@ -131,16 +141,17 @@ let forEc = function(data, path) {
           c.isFather = state.ACTIVE_NAME;
           state.TAP_LIST.push(c);
         } else {
-          console.log(state.TAP_LIST)
           state.ACTIVE_NAME = info.isFather
         }
       } else {
         c.isFather = state.ACTIVE_NAME;
         state.TAP_LIST.push(c);
       }
-      state.CURRENT_INFO = c;
       state.CURRENT_TAP = c.id
+      c.index = state.TAP_LIST.length - 1
+      state.CURRENT_INFO = c;
       state.CURRENT_MENU = c.path
+      return
     }
     if (c.childern != null) {
       if (c.childern.length > 0) {

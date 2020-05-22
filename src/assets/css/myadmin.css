@@ -121,12 +121,17 @@ body {
   color: #fff;
 }
 
+.info-content{
+  display: flex;
+}
 
 .table-content {
   padding: 15px;
+  flex: 1;
 }
 
 .tree-content {
+  flex: 1;
   padding: 15px;
   min-width: 230px;
   max-width: 230px;
@@ -246,4 +251,15 @@ body {
 
 .tap-active:hover {
   color: #409EFF;
+}
+/*elementui loading css 覆盖 开始*/
+
+.el-loading-spinner .circular{
+  animation: loading-rotate 2s linear infinite;
+  display: none;
+}
+.el-loading-spinner {
+  background: url(../../../static/img/load.gif) no-repeat  center top;
+  background-size: 140px;
+  height: 100%;
 }
