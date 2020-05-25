@@ -1,26 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '@/components/main/index.vue'
-import home from '@/views/main/index.vue'
+import api from '@/router/api'
 
 Vue.use(Router)
-
-export default new Router({
-  routes: [
-    {
+export const constantRouterMap = [
+  {
+    path: '/login',
+    name: 'login',
+    component: api.login,
+    hidden: true
+  },
+  {
+    path: '/',
+    component: api.main,
+    hidden: true,
+    children:[{
+      id:0,
       path: '/',
-      name: 'main',
-      component: main,
-      children:[{
-        path: '/index',
-        name:'home',
-        component:home
-      },
-      {
-        path: '/home',
-        name:'home1',
-        component:home
-      }]
-    }
-  ]
+      name:'home',
+      component:api.home
+    }]
+  }
+ ]
+export default new Router({
+  routes: constantRouterMap
 })

@@ -18,5 +18,4 @@ export default {
     height: 100%;
     width: 100%;
   }
-  @import "./assets/css/myadmin.css";
 </style>

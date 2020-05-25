@@ -1,5 +1,5 @@
 <template>
-  <el-container >
+  <el-container v-loading = "isLoading">
     <el-aside :width="menuWidth+'px'">
       <el-menu  background-color="#20222a"
       text-color="#909399"
@@ -116,6 +116,7 @@
         activeName: null, //头部菜单模块第一个高亮
         divWidth: 0, //历史标签滑动条滑动值
         menuList: this.$store.getters._GET_MENU_LIST, //菜单栏信息
+        isLoading:true,
       }
     },
     methods: {
@@ -249,6 +250,7 @@
     //页面初始化
     created() {
       let that = this;
+      that.isLoading = false;
       var menu = that.$store.getters._GET_MENU_LIST;
       if (menu.length > 0) {
         that.$store.state.ACTIVE_NAME = menu[0].id

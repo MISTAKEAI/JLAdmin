@@ -53,19 +53,26 @@ body {
   height: 100%;
 }
 
-.el-submenu__title:hover {
+/* .el-submenu__title:hover {
   background-color: #000000 !important;
 }
-.el-submenu__title:hover i,.el-submenu__title:hover span {
+
+.el-menu .is-active .el-submenu__title{
+  background-color: #000000 !important;
+} */
+
+.el-menu .is-active .el-submenu__title i,.el-menu .is-active .el-submenu__title span{
   color: #fff;
 }
 
+.el-submenu__title:hover i,.el-submenu__title:hover span {
+  color: #fff;
+}
 
 .el-menu-item:hover {
   background-color: #000000 !important;
    color: #fff !important;
 }
-
 
 .el-menu-item.is-active {
   background-color: #000000 !important;
