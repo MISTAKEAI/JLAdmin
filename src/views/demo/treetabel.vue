@@ -91,18 +91,16 @@
       </div>
     </div>
     <index-edit ref="indexEdit"></index-edit>
-    <index-detail ref="indexDetail"></index-detail>
   </div>
 </template>
 <script>
   import iTable from '../../components/tool/Table.vue'
   import indexEdit from '@/views/main/indexEdit.vue'
-  import indexDetail from '@/views/main/indexDetail.vue'
+
   export default {
     components: {
       iTable,
-      indexEdit,
-      indexDetail
+      indexEdit
     },
     data() {
       return {
@@ -284,7 +282,7 @@
       },
       // 详情
       handleDetail(index, row) {
-        this.$refs.indexDetail.init();
+        this.$refs.indexEdit.init();
       },
       // 编辑
       handleEdit(index, row) {

@@ -79,7 +79,6 @@ body {
 }
 
 .logo {
-  background-color: #409EFF;
   cursor: pointer;
   color: white;
   height: 40px;
@@ -89,6 +88,7 @@ body {
 }
 
 .log-active{
+  color: #409EFF;
   width: 68px;
 }
 
@@ -292,3 +292,35 @@ body {
   background-size: 140px;
   height: 100%;
 }
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+
+  .avatar-uploader-icon {
+    font-size: 29px;
+    color: #9c939d;
+    width: 152px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    border: 1px dashed #ccc;
+  }
+
+  .avatar {
+    width: 150px;
+    height: 150px;
+    display: block;
+  }
+
+  .widthStyle {
+    width: 90%;
+  }

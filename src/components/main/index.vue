@@ -68,7 +68,7 @@
         <i class="vicon-left el-icon-arrow-left" @click="leftSlither()"></i>
         <div class="tap-select-content" ref="tapScr">
           <div class="next-select-content" :style="{'transform':'translateX('+divWidth+'px)'}">
-            <div class="tap-title" ref="taps" @click="toTap(null,0)" :class="{'tap-active':$store.state.CURRENT_TAP==0}">
+            <div class="tap-title" ref="tanetgearps" @click="toTap(null,0)" :class="{'tap-active':$store.state.CURRENT_TAP==0}">
               <span>首页</span>
             </div>
             <template v-for="(item, index) in $store.getters._GET_TAP_LIST">
