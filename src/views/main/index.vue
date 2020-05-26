@@ -30,7 +30,7 @@
         </el-tree>
       </div>
       </el-col>
-      <div class="table-content">
+      <div class="table-content" :style="{'width':screenWidth - 400 +'px'}">
         <div class="operate-btn">
           <el-row :gutter="24">
             <el-col :span="3">
@@ -106,6 +106,7 @@
     },
     data() {
       return {
+        screenWidth: document.body.clientWidth,
         isExpand: false, //展示多个搜索条件
         input2: null,
         treeData: [{
@@ -255,7 +256,15 @@
         } // table 的参数
       }
     },
-    mounted() {},
+    mounted() {
+      const that = this
+      window.onresize = () => {
+          return (() => {
+              window.screenWidth = document.body.clientWidth
+              that.screenWidth = window.screenWidth
+          })()
+      }
+    },
     methods: {
       //展开更多条件查询
       expand() {
@@ -292,6 +301,22 @@
       },
       // 删除
       handleDel(index, row) {}
+    },
+    watch:{
+        screenWidth(val){
+            // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
+            if(!this.timer){
+                // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
+                this.screenWidth = val
+                this.timer = true
+                let that = this
+                setTimeout(function(){
+                    // 打印screenWidth变化的值
+                    console.log(that.screenWidth)
+                    that.timer = false
+                },400)
+            }
+        }
     }
   }
 </script>
