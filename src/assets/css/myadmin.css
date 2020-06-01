@@ -74,8 +74,18 @@ body {
    color: #fff !important;
 }
 
+.el-menu-item:hover i{
+   color: #fff !important;
+}
+
+.el-menu-item:hover {
+  background-color: #000000 !important;
+   color: #fff !important;
+}
+
 .el-menu-item.is-active {
   background-color: #000000 !important;
+  color: #fff;
 }
 
 .logo {
@@ -141,26 +151,23 @@ body {
 }
 
 .info-content{
-  display: flex;
   height: 100%;
   width: 100%;
 }
 
 .table{
+  padding-left: 10px;
   width: 100%;
 }
 
 .table-content {
-  padding: 15px;
-  position: relative;
-  width: 100%;
+  padding-top: 10px;
+  width: 98.9%;
 }
 
 .tree-content {
   padding: 15px;
-  width: 230px;
-  min-width: 230px;
-  max-width: 230px;
+  height: 100%;
   margin-bottom: 70px;
   overflow: auto;
   border-right: 1px solid #f0f0f0;
@@ -173,6 +180,7 @@ body {
 }
 
 .operate-btn {
+  padding-left: 10px;
   margin-bottom: 10px;
 }
 

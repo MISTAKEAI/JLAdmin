@@ -11,6 +11,10 @@ const baseRequest = {
     login (params) {
         return axios.post(`${base.bd}webApi/base/1.0/login`, qs.stringify(params));
     },
+    // post提交登录
+    getPerm (params) {
+        return axios.post(`${base.bd}webApi/base/1.0/getPerm`, qs.stringify(params));
+    },
 	 logout (params) {
 	    return axios.post(`${base.bd}webApi/base/1.0/logout`, qs.stringify(params));
 	},

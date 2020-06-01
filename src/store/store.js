@@ -3,64 +3,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = { //要设置的全局访问的state对象
-  MENU_LIST: [{
-      id: "1",
-      name: "日常管理",
-      path: "/",
-      parentId: "0",
-      childern: [{
-        id: "2",
-        name: "企业管理",
-        parentId: "1",
-        path: "/",
-        childern: [{
-          id: "3",
-          name: "公司管理",
-          parentId: "2",
-          path: "/index1",
-          childern: null
-        },{
-          id: "13",
-          name: "部门管理",
-          parentId: "2",
-          path: "/index5",
-          childern: null
-        },{
-          id: "14",
-          name: "员工管理",
-          parentId: "2",
-          path: "/index",
-          childern: null
-        }]
-      },
-      {
-        id: "15",
-        name: "企业管理",
-        parentId: "1",
-        path: "/",
-        childern: null
-      }]
-    },
-    {
-      id: "4",
-      name: "日常管理2",
-      path: "/",
-      parentId: "0",
-      childern: [{
-        id: "5",
-        name: "企业管理1",
-        parentId: "4",
-        path: "/",
-        childern: [{
-          id: "6",
-          name: "公司管理2",
-          parentId: "5",
-          path: "/home",
-          childern: null
-        }]
-      }]
-    }
-  ], //当前菜单栏
+  USER_INFO:null,
+  MENU_LIST: [], //当前菜单栏
   TAP_LIST: [], //当前历史标签列表
   CURRENT_INFO: null, //当前路由对象
   CURRENT_MENU: null,
@@ -69,6 +13,10 @@ const state = { //要设置的全局访问的state对象
 };
 
 const getters = {
+  //获取用户信息
+  _GET_USER_INFO(state){
+    return state.USER_INFO
+  },
   //获取路由对象
   _GET_CURRENT_INFO(state) {
     return state.CURRENT_INFO
@@ -87,6 +35,10 @@ const getters = {
   },
 };
 const mutations = {
+  //设置登录信息
+  _GET_USER_INFO(state,value){
+    state.USER_INFO = value
+  },
   //设置路由对象
   _SET_CURRENT_INFO(state, value) {
     state.CURRENT_INFO = value

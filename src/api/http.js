@@ -107,7 +107,7 @@ instance.interceptors.request.use(
     // config.headers = {
     // 	'Content-Type': 'application/x-www-form-urlencoded'
     // }
-    const token = store.state.USER_TOKEN;
+    const token = "XDGXDGXDG123XDGXDGXDG";
     token && (config.headers.token = token);
     return config;
   },

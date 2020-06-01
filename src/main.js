@@ -15,7 +15,7 @@ import api from '@/api' // 导入api接口
 Vue.prototype.$api = api;
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
-   NProgress.start()
+  NProgress.start()
   store.commit("_SET_TAP_SELECT",to)
   next()
 })

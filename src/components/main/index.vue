@@ -10,13 +10,17 @@
           <i class="iconfont icon-jingyu" v-else></i>
         </div>
         <template v-for="(it, index) in menuList">
-          <template v-for="(item, index) in it.childern">
-            <el-submenu :index="item.id" v-show="$store.state.ACTIVE_NAME == it.id">
+          <template v-for="(item, index) in it.childList">
+            <el-menu-item :index="item.path" v-show="$store.state.ACTIVE_NAME == it.id" v-if="item.childList == null">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">{{item.name}}</span>
+                  </el-menu-item>
+            <el-submenu :index="item.id" v-show="$store.state.ACTIVE_NAME == it.id" v-if="item.childList != null">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span slot="title">{{item.name}}</span>
               </template>
-              <template v-for="(it, index) in item.childern">
+              <template v-for="(it, index) in item.childList">
                 <el-menu-item :index="it.path">{{it.name}}</el-menu-item>
               </template>
             </el-submenu>
@@ -115,7 +119,7 @@
         menuWidth: 180, //左侧菜单伸缩宽度
         activeName: null, //头部菜单模块第一个高亮
         divWidth: 0, //历史标签滑动条滑动值
-        menuList: this.$store.getters._GET_MENU_LIST, //菜单栏信息
+        menuList: [], //菜单栏信息
         isLoading:true,
       }
     },
@@ -250,21 +254,32 @@
     //页面初始化
     created() {
       let that = this;
-      that.isLoading = false;
-      var menu = that.$store.getters._GET_MENU_LIST;
-      if (menu.length > 0) {
-        that.$store.state.ACTIVE_NAME = menu[0].id
-        if (that.$router.currentRoute.fullPath != "/") {
-          if (that.$store.getters._GET_TAP_LIST.length == 0) {
-            that.$router.push({
-              path: '/'
-            })
-            that.$store.commit("_SET_CURRENT_INFO", null);
-          } else {
-            that.$store.state.ACTIVE_NAME = that.$store.getters._GET_CURRENT_INFO.isFather
-          }
-        }
-      }
+      that.$api.baseRequest.getPerm({})
+      	.then(res => {
+      		 var res = res.data
+      		if(res.code == 1){
+            that.$store.commit("_SET_MENU_LIST",res.data)
+            var menu = res.data;
+            that.menuList = menu
+            if (menu.length > 0) {
+              that.$store.state.ACTIVE_NAME = menu[0].id
+              if (that.$router.currentRoute.fullPath != "/") {
+                if (that.$store.getters._GET_TAP_LIST.length == 0) {
+                  that.$router.push({
+                    path: '/'
+                  })
+                  that.$store.commit("_SET_CURRENT_INFO", null);
+                } else {
+                  that.$store.state.ACTIVE_NAME = that.$store.getters._GET_CURRENT_INFO.isFather
+                }
+              }
+            }
+      		}
+         that.isLoading = false;
+      	})
+      	.catch((error) => {
+            that.isLoading = false;
+      	})
     }
   };
 </script>

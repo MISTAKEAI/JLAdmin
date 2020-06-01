@@ -19,77 +19,81 @@
         </div>
       </el-row>
     </div>
-    <div class="info-content">
-      <div class="tree-content">
-        <el-tree :data="treeData" :props="defaultProps" highlight-current :expand-on-click-node="false" default-expand-all>
-          <span class="span-ellipsis" slot-scope="{ node, data }">
-            <el-tooltip class="item" effect="light" :content="node.label" placement="top">
-              <span>{{ node.label }}</span>
-            </el-tooltip>
-          </span>
-        </el-tree>
-      </div>
-      </el-col>
-      <div class="table-content" :style="{'width':screenWidth - 400 +'px'}">
-        <div class="operate-btn">
-          <el-row :gutter="24">
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="8">
-              <el-button type="text" @click="expand()" icon="el-icon-d-caret">展开</el-button>
-              <el-button type="primary" icon="el-icon-search" size="small" round>搜索</el-button>
-              <el-button type="danger" icon="el-icon-refresh" size="small" round>重置</el-button>
-            </el-col>
-          </el-row>
-          <el-row :gutter="24" v-if="isExpand">
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-            <el-col :span="3">
-              <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
-              </el-input>
-            </el-col>
-          </el-row>
+    <el-row class="info-content">
+      <el-col :span="4" class="tree-content">
+        <div>
+          <el-tree :data="treeData" :props="defaultProps" highlight-current :expand-on-click-node="false"
+            default-expand-all>
+            <span class="span-ellipsis" slot-scope="{ node, data }">
+              <el-tooltip class="item" effect="light" :content="node.label" placement="top">
+                <span>{{ node.label }}</span>
+              </el-tooltip>
+            </span>
+          </el-tree>
         </div>
-        <!--region table 表格-->
-        <i-table :list="list" :total="total" :otherHeight="otherHeight" :options="options" :pagination="pagination"
-          :columns="columns" :operates="operates" @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange"
-          @handleSelectionChange="handleSelectionChange" ref="iTable">
-        </i-table>
-        <!--endregion-->
-      </div>
-    </div>
+      </el-col>
+      <el-col :span="20">
+        <div class="table-content">
+          <div class="operate-btn">
+            <el-row :gutter="24">
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="8">
+                <el-button type="text" @click="expand()" icon="el-icon-d-caret">展开</el-button>
+                <el-button type="primary" icon="el-icon-search" size="small" round>搜索</el-button>
+                <el-button type="danger" icon="el-icon-refresh" size="small" round>重置</el-button>
+              </el-col>
+            </el-row>
+            <el-row :gutter="24" v-if="isExpand">
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+              <el-col :span="3">
+                <el-input size="small" placeholder="请输入内容" suffix-icon="el-icon-date" v-model="input2">
+                </el-input>
+              </el-col>
+            </el-row>
+          </div>
+          <!--region table 表格-->
+          <i-table :list="list" :total="total" :otherHeight="otherHeight" :options="options" :pagination="pagination"
+            :columns="columns" :operates="operates" @handleSizeChange="handleSizeChange" @handleIndexChange="handleIndexChange"
+            @handleSelectionChange="handleSelectionChange" ref="iTable">
+          </i-table>
+          <!--endregion-->
+        </div>
+      </el-col>
+    </el-row>
     <index-edit ref="indexEdit"></index-edit>
     <index-detail ref="indexDetail"></index-detail>
   </div>
@@ -106,7 +110,6 @@
     },
     data() {
       return {
-        screenWidth: document.body.clientWidth,
         isExpand: false, //展示多个搜索条件
         input2: null,
         treeData: [{
@@ -114,13 +117,13 @@
           children: [{
             label: '总裁办',
             children: [{
-            label: '财务部',
-            children: null,
-           }],
-           },{
+              label: '财务部',
+              children: null,
+            }],
+          }, {
             label: '技术部',
             children: null,
-           }]
+          }]
         }],
         list: [{
             id: '24',
@@ -256,15 +259,6 @@
         } // table 的参数
       }
     },
-    mounted() {
-      const that = this
-      window.onresize = () => {
-          return (() => {
-              window.screenWidth = document.body.clientWidth
-              that.screenWidth = window.screenWidth
-          })()
-      }
-    },
     methods: {
       //展开更多条件查询
       expand() {
@@ -302,21 +296,5 @@
       // 删除
       handleDel(index, row) {}
     },
-    watch:{
-        screenWidth(val){
-            // 为了避免频繁触发resize函数导致页面卡顿，使用定时器
-            if(!this.timer){
-                // 一旦监听到的screenWidth值改变，就将其重新赋给data里的screenWidth
-                this.screenWidth = val
-                this.timer = true
-                let that = this
-                setTimeout(function(){
-                    // 打印screenWidth变化的值
-                    console.log(that.screenWidth)
-                    that.timer = false
-                },400)
-            }
-        }
-    }
   }
 </script>
