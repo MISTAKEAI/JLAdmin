@@ -3,8 +3,7 @@ import Router from 'vue-router'
 import api from '@/router/api'
 
 Vue.use(Router)
-export const constantRouterMap = [
-  {
+export const constantRouterMap = [{
     path: '/login',
     name: 'login',
     component: api.login,
@@ -14,14 +13,24 @@ export const constantRouterMap = [
     path: '/',
     component: api.main,
     hidden: true,
-    children:[{
-      id:0,
+    children: [{
+      id: 0,
       path: '/',
-      name:'home',
-      component:api.home
+      name: 'home',
+      component: api.home
     }]
   }
- ]
-export default new Router({
+]
+
+const createRouter = () => new Router({
   routes: constantRouterMap
 })
+
+const router = createRouter()
+
+router.$addRoutes = (params) => {
+  const newRouter = createRouter();
+  router.matcher = newRouter.matcher // the relevant part
+  router.addRoutes(params)
+}
+export default router

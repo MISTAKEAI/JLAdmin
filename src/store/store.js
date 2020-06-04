@@ -5,11 +5,12 @@ Vue.use(Vuex);
 const state = { //要设置的全局访问的state对象
   USER_INFO:null,
   MENU_LIST: [], //当前菜单栏
+  ROUTER_MENU:[], //当前路由菜单栏
   TAP_LIST: [], //当前历史标签列表
   CURRENT_INFO: null, //当前路由对象
-  CURRENT_MENU: null,
-  CURRENT_TAP: 0,
-  ACTIVE_NAME: null,
+  CURRENT_MENU: null, //当前路径
+  CURRENT_TAP: 0, //当前选中的历史标签id
+  ACTIVE_NAME: null, //选中的一级菜单栏
 };
 
 const getters = {
@@ -55,16 +56,22 @@ const mutations = {
   _SET_CURRENT_MENU(state, value) {
     state.CURRENT_MENU = value
   },
+  //设置选中的一级菜单栏
   _SET_ACTIVE_NAME(state, value) {
     state.ACTIVE_NAME = value
   },
+  //设置当前历史菜单选中
   _SET_CURRENT_TAP(state, value) {
     state.CURRENT_TAP = value
   },
+  //设置路由菜单
+  _SET_ROUTER_MENU(state, value) {
+    state.ROUTER_MENU = value
+  },
   _SET_TAP_SELECT(state, value) {
     if (value.path != "/") {
-      if (state.MENU_LIST.length > 0) {
-        let data = state.MENU_LIST;
+      if (state.ROUTER_MENU.length > 0) {
+        let data = state.ROUTER_MENU;
         forEc(data, value.path);
       }
     } else {
@@ -88,7 +95,6 @@ var actveName = null
 let forEc = function(data, path) {
   let flg = false;
   var info = null;
-
   data.forEach(function(c) {
     if (c.parentId == 0) {
       actveName = c.id
@@ -118,9 +124,9 @@ let forEc = function(data, path) {
       state.CURRENT_MENU = c.path
       return
     }
-    if (c.childern != null) {
-      if (c.childern.length > 0) {
-        forEc(c.childern, path);
+    if (c.children != null) {
+      if (c.children.length > 0) {
+        forEc(c.children, path);
       }
     }
   })

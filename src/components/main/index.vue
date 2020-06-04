@@ -254,32 +254,23 @@
     //页面初始化
     created() {
       let that = this;
-      that.$api.baseRequest.getPerm({})
-      	.then(res => {
-      		 var res = res.data
-      		if(res.code == 1){
-            that.$store.commit("_SET_MENU_LIST",res.data)
-            var menu = res.data;
-            that.menuList = menu
-            if (menu.length > 0) {
-              that.$store.state.ACTIVE_NAME = menu[0].id
-              if (that.$router.currentRoute.fullPath != "/") {
-                if (that.$store.getters._GET_TAP_LIST.length == 0) {
-                  that.$router.push({
-                    path: '/'
-                  })
-                  that.$store.commit("_SET_CURRENT_INFO", null);
-                } else {
-                  that.$store.state.ACTIVE_NAME = that.$store.getters._GET_CURRENT_INFO.isFather
-                }
-              }
-            }
-      		}
-         that.isLoading = false;
-      	})
-      	.catch((error) => {
-            that.isLoading = false;
-      	})
+      if(that.$store.getters._GET_MENU_LIST !=null){
+      that.menuList =  that.$store.getters._GET_MENU_LIST
+      if (that.menuList.length > 0) {
+        that.$store.state.ACTIVE_NAME = that.menuList[0].id
+        if (that.$router.currentRoute.fullPath != "/") {
+          if (that.$store.getters._GET_TAP_LIST.length == 0) {
+            that.$router.push({
+              path: '/'
+            })
+            that.$store.commit("_SET_CURRENT_INFO", null);
+          } else {
+            that.$store.state.ACTIVE_NAME = that.$store.getters._GET_CURRENT_INFO.isFather
+          }
+        }
+      }
+      }
+      that.isLoading = false;
     }
   };
 </script>
