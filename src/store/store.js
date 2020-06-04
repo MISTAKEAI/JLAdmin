@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = { //要设置的全局访问的state对象
+  USER_ID:null,
+  USER_TOKEN:null,
   USER_INFO:null,
   MENU_LIST: [], //当前菜单栏
   ROUTER_MENU:[], //当前路由菜单栏
@@ -17,6 +19,14 @@ const getters = {
   //获取用户信息
   _GET_USER_INFO(state){
     return state.USER_INFO
+  },
+  //获取用户ID
+  _GET_USER_ID(state){
+    return state.USER_ID
+  },
+  //获取用户token
+  _GET_USER_TOKEN(state){
+    return state.USER_TOKEN
   },
   //获取路由对象
   _GET_CURRENT_INFO(state) {
@@ -36,9 +46,27 @@ const getters = {
   },
 };
 const mutations = {
-  //设置登录信息
-  _GET_USER_INFO(state,value){
+  //设置用户信息
+  _SET_USER_INFO(state,value){
     state.USER_INFO = value
+  },
+  //获取本地localStorage值
+  _SET_BY_STORAGE(state,value){
+    state.USER_ID = JSON.parse(localStorage.getItem("_storeUserId"));;
+    state.USER_TOKEN = JSON.parse(localStorage.getItem("_storeToken"));;
+  },
+  //设置登录存储
+  _SET_LOGIN_STORAGE(state,value) {
+    localStorage.setItem("_storeUserId",value.userId);
+    localStorage.setItem("_storeToken",value.token);
+  },
+  //设置退出清空本地缓存
+  _SET_LOGIN_OUT(state) {
+    state.USER_TOKEN = null;
+    state.USER_INFO = null;
+    state.USER_ID = null;
+    state.MENU_LIST = null,
+    localStorage.clear();
   },
   //设置路由对象
   _SET_CURRENT_INFO(state, value) {

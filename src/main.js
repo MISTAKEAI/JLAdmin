@@ -4,9 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/store'
+//饿了么组件库
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
+//引入兼容IE
+import promise from 'es6-promise';
+promise.polyfill();
+
+//省市县插件
+import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
+
 //引入nprogress
 import NProgress from 'nprogress' // 进度条
 import 'nprogress/nprogress.css' //这个样式必须引入
@@ -16,23 +24,48 @@ Vue.prototype.$api = api;
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (store.getters._GET_MENU_LIST.length <= 0) {
-    api.baseRequest.getPerm({})
-      .then(res => {
-        var res = res.data
-        if (res.code == 1) {
-          store.commit("_SET_MENU_LIST", res.data)
-          initMenu(router, store.getters._GET_MENU_LIST);
-          next({ ...to,
-            replace: true
-          })
-        }
-      })
-      .catch((error) => {})
-  } else {
-    next()
+  if (store.getters._GET_USER_TOKEN != null) {
+    store.commit("_SET_BY_STORAGE");
   }
-  store.commit("_SET_TAP_SELECT", to)
+  console.log(store.getters._GET_USER_TOKEN)
+  if (store.getters._GET_USER_TOKEN != null) {
+    if (to.path === '/login') {
+      next({
+        path: '/'
+      })
+      NProgress.done()
+    } else {
+      if (store.getters._GET_MENU_LIST.length <= 0) {
+        api.baseRequest.getPerm({
+            userId: store.getters._GET_USER_ID
+          })
+          .then(res => {
+            var res = res.data
+            if (res.code == 1) {
+              store.commit("_SET_MENU_LIST", res.data)
+              initMenu(router, store.getters._GET_MENU_LIST);
+              next({ ...to,
+                replace: true
+              })
+            }
+          })
+          .catch((error) => {
+            store.commit("_SET_LOGIN_OUT")
+            next()
+          })
+      } else {
+        next()
+      }
+      store.commit("_SET_TAP_SELECT", to)
+    }
+  } else {
+    if (to.path == '/login') { //如果是登录页面路径，就直接next()
+      next();
+    } else { //不然就跳转到登录；
+      next('/login');
+      NProgress.done()
+    }
+  }
 })
 router.afterEach(() => {
   NProgress.done()
@@ -52,7 +85,7 @@ export const initMenu = (router, menu) => {
   }
   menus.push(unfound)
   router.$addRoutes(menus)
-  store.commit("_SET_ROUTER_MENU",menus.concat(router.options.routes))
+  store.commit("_SET_ROUTER_MENU", menus.concat(router.options.routes))
 }
 
 //把菜单栏转换成路由格式
@@ -76,14 +109,14 @@ export const formatRoutes = (aMenu) => {
         oRouter = {
           id: id,
           path: path,
-          parentId:parentId,
+          parentId: parentId,
           component(resolve) {
             require([`./${component}`], resolve)
           },
           icon: icon,
           children: formatRoutes(childList)
         }
-      }else if(resouce == 1){
+      } else if (resouce == 1) {
         console.log("a")
         oRouter = {
           id: id,
